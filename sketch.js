@@ -148,8 +148,6 @@ function draw() {
     // if(narutoSprite.x <= 0) {
     //   checkFrame = true;
     // }
-
-
 }
 
 function Sprite(_x, _y) {

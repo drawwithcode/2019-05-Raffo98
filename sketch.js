@@ -11,7 +11,6 @@ var myFont;
 var data;
 var dataAttack;
 var checkPos = 0;
-var checkAttack = 50;
 var checkText;
 var speechRec;
 var standAnimation = [];
@@ -35,7 +34,6 @@ function preload() {
 }
 
 function setup() {
-  frameRate(12);
   createCanvas(windowWidth, windowHeight);
 
   //Acquisizione dati JSON
@@ -75,11 +73,11 @@ function setup() {
     runAnimationLeft.push(k);
   }
 
-  for (i = 14; i < 16; i++) {
-    loc = frame[i].position;
-    k = spritesheet.get(loc.x, loc.y, loc.w, loc.h);
-    jumpAnimation.push(k);
-  }
+  // for (i = 14; i < 16; i++) {
+  //   loc = frame[i].position;
+  //   k = spritesheet.get(loc.x, loc.y, loc.w, loc.h);
+  //   jumpAnimation.push(k);
+  // }
 
   //inserimento dati attacco in array
 
@@ -108,6 +106,7 @@ function draw() {
   textFont(myFont);
   textSize(20);
   fill(255);
+  frameRate(12);
   text('Say "Rasengan" to attack', windowWidth / 2, windowHeight / 2 - 125);
   // if(frameCount % 30 == 0) {
   //   var k = new enemy();
@@ -124,6 +123,7 @@ function draw() {
     narutoSprite.moveRight();
     checkPos = 0;
 
+
   } else if (keyIsDown(LEFT_ARROW)) {
     narutoSprite.moveLeft();
     checkPos = 1;
@@ -133,21 +133,14 @@ function draw() {
   // }
 
   else if (checkText == 'Rasengan'){
+      frameRate(6);
       narutoSprite.attack();
+      checkText = 'undefined';
     }
 
   else {
       narutoSprite.display();
     }
-
-    //impedisce allo sprite di uscire dai bordi dello schermo
-    // if(narutoSprite.x >= windowWidth) {
-    //   checkFrame = true;
-    // }
-    //
-    // if(narutoSprite.x <= 0) {
-    //   checkFrame = true;
-    // }
 }
 
 function Sprite(_x, _y) {
@@ -174,17 +167,18 @@ function Sprite(_x, _y) {
   }
 
   this.attack = function() {
-      this.x += checkAttack;
+      this.x += 200;
       image(attackAnimation[frameCount % 2], this.x, this.y, 158, 112);
       image(rasenganAnimation[frameCount % 2], this.x + 150, this.y - 25, 102, 108);
   }
 
   this.display = function() {
+    loop();
     if (checkPos == 0) {
-      image(standAnimation[frameCount % 3], this.x, this.y, 86, 144);
+      image(standAnimation[frameCount % 2], this.x, this.y, 86, 144);
     }
     if (checkPos == 1) {
-      image(standAnimationLeft[frameCount % 3], this.x, this.y, 86, 144);
+      image(standAnimationLeft[frameCount % 2], this.x, this.y, 86, 144);
     }
   }
 }
